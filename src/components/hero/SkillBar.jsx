@@ -2,12 +2,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const skillColors = {
-  strength: { primary: '#FF4757', secondary: '#FF6B81', icon: '💪' },
-  intelligence: { primary: '#5352ED', secondary: '#70A1FF', icon: '🧠' },
-  discipline: { primary: '#FFA502', secondary: '#FFBE76', icon: '⚔️' },
-  creativity: { primary: '#A55EEA', secondary: '#D980FA', icon: '✨' },
-  vitality: { primary: '#2ED573', secondary: '#7BED9F', icon: '💚' },
-  charisma: { primary: '#FF6B9D', secondary: '#FFB8D0', icon: '💫' }
+  strength: { primary: '#FF0000', secondary: '#FF0000', icon: '█' },
+  intelligence: { primary: '#0000FF', secondary: '#0000FF', icon: '▲' },
+  discipline: { primary: '#FFFF00', secondary: '#FFFF00', icon: '♦' },
+  creativity: { primary: '#FF00FF', secondary: '#FF00FF', icon: '★' },
+  vitality: { primary: '#00FF00', secondary: '#00FF00', icon: '♥' },
+  charisma: { primary: '#00FFFF', secondary: '#00FFFF', icon: '◆' }
 };
 
 export default function SkillBar({ skill, value, maxValue = 100 }) {
@@ -16,74 +16,72 @@ export default function SkillBar({ skill, value, maxValue = 100 }) {
   const skillLevel = Math.floor(value / 10) + 1;
   
   return (
-    <div className="relative group">
+    <div className="relative">
       {/* Skill label */}
-      <div className="flex justify-between items-center mb-1">
+      <div className="flex justify-between items-center mb-2">
         <div className="flex items-center gap-2">
-          <span className="text-lg">{colors.icon}</span>
           <span 
-            className="font-bold uppercase tracking-wider text-sm"
+            className="text-2xl"
             style={{ 
               color: colors.primary,
-              textShadow: `0 0 10px ${colors.primary}40`
+              textShadow: `2px 2px 0 ${colors.primary}40`,
+              imageRendering: 'pixelated'
+            }}
+          >
+            {colors.icon}
+          </span>
+          <span 
+            className="font-black uppercase tracking-wider text-sm"
+            style={{ 
+              fontFamily: 'monospace',
+              color: '#FFFFFF',
+              textShadow: `2px 2px 0 ${colors.primary}`,
+              imageRendering: 'pixelated'
             }}
           >
             {skill}
           </span>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-400">LV</span>
-          <span 
-            className="font-bold text-lg"
-            style={{ 
-              color: colors.primary,
-              textShadow: `0 0 10px ${colors.primary}`
-            }}
-          >
-            {skillLevel}
-          </span>
+        <div 
+          className="px-2 py-1 font-black bg-black"
+          style={{ 
+            fontFamily: 'monospace',
+            color: colors.primary,
+            textShadow: `2px 2px 0 #000`,
+            border: `3px solid ${colors.primary}`,
+            boxShadow: `0 0 10px ${colors.primary}`,
+            imageRendering: 'pixelated'
+          }}
+        >
+          LV{String(skillLevel).padStart(2, '0')}
         </div>
       </div>
       
-      {/* Progress bar container */}
-      <div className="relative h-6 rounded-sm overflow-hidden bg-slate-900 border-2 border-slate-700">
-        {/* Scan lines overlay */}
-        <div 
-          className="absolute inset-0 opacity-20 pointer-events-none"
-          style={{
-            backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px)'
-          }}
-        />
+      {/* Progress bar container - pixel art style */}
+      <div className="relative h-8 bg-black border-4 border-white overflow-hidden">
+        {/* Inner border */}
+        <div className="absolute inset-1 border-2 border-gray-700" />
         
-        {/* Progress fill */}
+        {/* Progress fill - blocky pixel style */}
         <motion.div
           className="h-full relative"
           initial={{ width: 0 }}
           animate={{ width: `${percentage}%` }}
           transition={{ duration: 1, ease: "easeOut" }}
           style={{
-            background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
-            boxShadow: `0 0 20px ${colors.primary}80, inset 0 1px 0 rgba(255,255,255,0.3)`
+            background: `repeating-linear-gradient(90deg, ${colors.primary} 0px, ${colors.primary} 8px, ${colors.secondary} 8px, ${colors.secondary} 16px)`,
+            boxShadow: `inset 0 0 20px ${colors.primary}80`,
+            imageRendering: 'pixelated'
           }}
-        >
-          {/* Animated shine */}
-          <motion.div
-            className="absolute inset-0"
-            style={{
-              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
-              width: '50%'
-            }}
-            animate={{ x: ['-100%', '300%'] }}
-            transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
-          />
-        </motion.div>
+        />
         
-        {/* Segment markers */}
+        {/* Pixel segments */}
         <div className="absolute inset-0 flex">
           {[...Array(10)].map((_, i) => (
             <div 
               key={i} 
-              className="flex-1 border-r border-slate-700/50 last:border-r-0"
+              className="flex-1 border-r-4 border-black/50"
+              style={{ imageRendering: 'pixelated' }}
             />
           ))}
         </div>
@@ -91,10 +89,15 @@ export default function SkillBar({ skill, value, maxValue = 100 }) {
         {/* XP text */}
         <div className="absolute inset-0 flex items-center justify-center">
           <span 
-            className="text-xs font-bold text-white drop-shadow-lg"
-            style={{ textShadow: '0 0 5px rgba(0,0,0,0.8)' }}
+            className="text-xs font-black px-2 bg-black/80"
+            style={{ 
+              fontFamily: 'monospace',
+              color: '#FFFFFF',
+              textShadow: '2px 2px 0 #000',
+              imageRendering: 'pixelated'
+            }}
           >
-            {value} / {maxValue} XP
+            {value}/{maxValue}
           </span>
         </div>
       </div>

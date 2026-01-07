@@ -43,94 +43,118 @@ export default function LevelUpModal({ isOpen, onClose, newLevel }) {
           ))}
           
           <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            exit={{ scale: 0, rotate: 180 }}
-            transition={{ type: 'spring', damping: 15 }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            transition={{ type: 'spring', damping: 10 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative text-center"
+            className="relative text-center bg-black border-8 border-white p-2"
+            style={{ imageRendering: 'pixelated' }}
           >
-            {/* Glowing ring */}
-            <motion.div
-              className="absolute inset-0 rounded-full"
-              style={{
-                background: 'radial-gradient(circle, rgba(255,215,0,0.3) 0%, transparent 70%)',
-                transform: 'scale(3)'
-              }}
-              animate={{ 
-                scale: [3, 3.5, 3],
-                opacity: [0.5, 0.8, 0.5]
-              }}
-              transition={{ repeat: Infinity, duration: 2 }}
-            />
-            
-            {/* Main content */}
-            <div className="relative z-10">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 8, ease: 'linear' }}
-                className="mb-4"
-              >
-                <Star 
-                  className="w-24 h-24 mx-auto text-yellow-400" 
-                  fill="currentColor"
-                  style={{ filter: 'drop-shadow(0 0 30px rgba(255,215,0,0.8))' }}
+            <div className="border-8 border-yellow-400 bg-black p-8 md:p-12">
+              {/* Pixel stars */}
+              {[...Array(8)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-4 h-4 bg-yellow-400"
+                  style={{
+                    top: `${20 + i * 10}%`,
+                    left: i % 2 === 0 ? '10%' : '90%',
+                    imageRendering: 'pixelated'
+                  }}
+                  animate={{ 
+                    opacity: [1, 0, 1],
+                    scale: [1, 1.5, 1]
+                  }}
+                  transition={{ repeat: Infinity, duration: 1, delay: i * 0.2 }}
                 />
-              </motion.div>
+              ))}
               
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-4xl md:text-6xl font-bold text-yellow-400 mb-2"
-                style={{ 
-                  fontFamily: "'Orbitron', sans-serif",
-                  textShadow: '0 0 40px rgba(255,215,0,0.8), 0 0 80px rgba(255,215,0,0.4)'
-                }}
-              >
-                LEVEL UP!
-              </motion.h2>
-              
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5 }}
-                className="text-7xl md:text-9xl font-bold"
-                style={{ 
-                  fontFamily: "'Orbitron', sans-serif",
-                  background: 'linear-gradient(135deg, #FFD700, #FF6B9D, #A55EEA)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  filter: 'drop-shadow(0 0 20px rgba(255,107,157,0.5))'
-                }}
-              >
-                {newLevel}
-              </motion.div>
-              
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.7 }}
-                className="text-cyan-400 text-lg mt-4 tracking-widest"
-              >
-                YOUR POWER GROWS STRONGER
-              </motion.p>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 }}
-                className="mt-8"
-              >
-                <Button
-                  onClick={onClose}
-                  className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-black font-bold px-8 py-3 text-lg"
-                  style={{ fontFamily: "'Orbitron', sans-serif" }}
+              {/* Main content */}
+              <div className="relative z-10">
+                <motion.div
+                  className="mb-4"
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ repeat: Infinity, duration: 1 }}
                 >
-                  <Sparkles className="w-5 h-5 mr-2" />
-                  CONTINUE
-                </Button>
-              </motion.div>
+                  <div 
+                    className="text-8xl mx-auto"
+                    style={{ 
+                      color: '#FFFF00',
+                      textShadow: '4px 4px 0 #FF0000',
+                      imageRendering: 'pixelated'
+                    }}
+                  >
+                    ★
+                  </div>
+                </motion.div>
+                
+                <motion.h2
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-5xl md:text-7xl font-black mb-4"
+                  style={{ 
+                    fontFamily: 'monospace',
+                    color: '#FFFF00',
+                    textShadow: '6px 6px 0 #FF0000, 6px 6px 0 2px #000',
+                    imageRendering: 'pixelated'
+                  }}
+                >
+                  LEVEL UP!
+                </motion.h2>
+                
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.4, type: 'spring' }}
+                  className="my-8 py-4 bg-red-600 border-4 border-white"
+                  style={{ boxShadow: '0 0 30px #FF0000' }}
+                >
+                  <div 
+                    className="text-8xl md:text-9xl font-black"
+                    style={{ 
+                      fontFamily: 'monospace',
+                      color: '#FFFFFF',
+                      textShadow: '8px 8px 0 #000',
+                      imageRendering: 'pixelated'
+                    }}
+                  >
+                    {String(newLevel).padStart(2, '0')}
+                  </div>
+                </motion.div>
+                
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                  className="text-cyan-400 text-xl font-black tracking-widest mb-8"
+                  style={{ 
+                    fontFamily: 'monospace',
+                    textShadow: '2px 2px 0 #000'
+                  }}
+                >
+                  &gt;&gt; POWER UP! &lt;&lt;
+                </motion.p>
+                
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.8 }}
+                >
+                  <button
+                    onClick={onClose}
+                    className="px-8 py-4 bg-green-500 border-4 border-white font-black text-xl text-black"
+                    style={{ 
+                      fontFamily: 'monospace',
+                      boxShadow: '8px 8px 0 #000, 0 0 30px #00FF00',
+                      imageRendering: 'pixelated'
+                    }}
+                  >
+                    ▶ CONTINUE
+                  </button>
+                </motion.div>
+              </div>
             </div>
           </motion.div>
         </motion.div>

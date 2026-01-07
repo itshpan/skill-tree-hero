@@ -4,21 +4,21 @@ import { Flame, Zap, Check, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const categoryColors = {
-  strength: { bg: 'from-red-500/20 to-red-900/20', border: 'border-red-500/50', text: 'text-red-400', glow: 'shadow-red-500/30' },
-  intelligence: { bg: 'from-blue-500/20 to-blue-900/20', border: 'border-blue-500/50', text: 'text-blue-400', glow: 'shadow-blue-500/30' },
-  discipline: { bg: 'from-amber-500/20 to-amber-900/20', border: 'border-amber-500/50', text: 'text-amber-400', glow: 'shadow-amber-500/30' },
-  creativity: { bg: 'from-purple-500/20 to-purple-900/20', border: 'border-purple-500/50', text: 'text-purple-400', glow: 'shadow-purple-500/30' },
-  vitality: { bg: 'from-green-500/20 to-green-900/20', border: 'border-green-500/50', text: 'text-green-400', glow: 'shadow-green-500/30' },
-  charisma: { bg: 'from-pink-500/20 to-pink-900/20', border: 'border-pink-500/50', text: 'text-pink-400', glow: 'shadow-pink-500/30' }
+  strength: { bg: 'bg-red-600', border: 'border-red-500', text: 'text-white', glow: '#FF0000' },
+  intelligence: { bg: 'bg-blue-600', border: 'border-blue-500', text: 'text-white', glow: '#0000FF' },
+  discipline: { bg: 'bg-yellow-500', border: 'border-yellow-400', text: 'text-black', glow: '#FFFF00' },
+  creativity: { bg: 'bg-purple-600', border: 'border-purple-500', text: 'text-white', glow: '#FF00FF' },
+  vitality: { bg: 'bg-green-600', border: 'border-green-500', text: 'text-white', glow: '#00FF00' },
+  charisma: { bg: 'bg-cyan-500', border: 'border-cyan-400', text: 'text-black', glow: '#00FFFF' }
 };
 
 const categoryIcons = {
-  strength: '💪',
-  intelligence: '🧠',
-  discipline: '⚔️',
-  creativity: '✨',
-  vitality: '💚',
-  charisma: '💫'
+  strength: '█',
+  intelligence: '▲',
+  discipline: '♦',
+  creativity: '★',
+  vitality: '♥',
+  charisma: '◆'
 };
 
 export default function HabitCard({ habit, onComplete, onDelete, isCompletedToday }) {
@@ -41,18 +41,23 @@ export default function HabitCard({ habit, onComplete, onDelete, isCompletedToda
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9 }}
-      whileHover={{ scale: 1.02 }}
-      className={`relative overflow-hidden rounded-lg border-2 ${colors.border} bg-gradient-to-br ${colors.bg} p-4 shadow-lg ${colors.glow}`}
+      whileHover={{ scale: 1.05 }}
+      className="relative bg-black border-4 border-white p-1"
+      style={{ imageRendering: 'pixelated' }}
     >
-      {/* Scan lines overlay */}
+      <div className={`border-4 ${colors.border} ${colors.bg} p-4 relative`}
+        style={{ boxShadow: `0 0 20px ${colors.glow}` }}
+      >
+      {/* Pixel pattern overlay */}
       <div 
-        className="absolute inset-0 opacity-10 pointer-events-none"
+        className="absolute inset-0 opacity-20 pointer-events-none"
         style={{
-          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)'
+          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(0,0,0,0.3) 4px, rgba(0,0,0,0.3) 8px)',
+          imageRendering: 'pixelated'
         }}
       />
       
-      {/* XP popup */}
+      {/* XP popup - arcade style */}
       <AnimatePresence>
         {showXP && (
           <motion.div
@@ -61,9 +66,17 @@ export default function HabitCard({ habit, onComplete, onDelete, isCompletedToda
             exit={{ opacity: 0, y: -60 }}
             className="absolute top-0 left-1/2 -translate-x-1/2 z-20"
           >
-            <span className="text-2xl font-bold text-yellow-400 drop-shadow-lg"
-              style={{ textShadow: '0 0 20px rgba(255,200,0,0.8)' }}>
-              +{totalXP} XP!
+            <span 
+              className="text-3xl font-black px-3 py-1 bg-black border-4 border-yellow-400"
+              style={{ 
+                fontFamily: 'monospace',
+                color: '#FFFF00',
+                textShadow: '3px 3px 0 #FF0000',
+                boxShadow: '0 0 30px #FFFF00',
+                imageRendering: 'pixelated'
+              }}
+            >
+              +{totalXP}
             </span>
           </motion.div>
         )}
@@ -72,71 +85,121 @@ export default function HabitCard({ habit, onComplete, onDelete, isCompletedToda
       <div className="relative z-10 flex items-start justify-between gap-3">
         {/* Habit info */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-xl">{categoryIcons[habit.skill_category]}</span>
-            <h3 className="font-bold text-white truncate" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-              {habit.name}
+          <div className="flex items-center gap-2 mb-2">
+            <span 
+              className="text-2xl"
+              style={{ 
+                color: colors.glow,
+                textShadow: `2px 2px 0 #000`,
+                imageRendering: 'pixelated'
+              }}
+            >
+              {categoryIcons[habit.skill_category]}
+            </span>
+            <h3 
+              className={`font-black truncate ${colors.text}`}
+              style={{ 
+                fontFamily: 'monospace',
+                textShadow: '2px 2px 0 #000',
+                imageRendering: 'pixelated'
+              }}
+            >
+              {habit.name.toUpperCase()}
             </h3>
           </div>
           
           {habit.description && (
-            <p className="text-sm text-slate-400 mb-2 line-clamp-2">{habit.description}</p>
+            <p className="text-xs mb-2 line-clamp-2" style={{ fontFamily: 'monospace', color: '#CCCCCC' }}>
+              {habit.description}
+            </p>
           )}
           
-          {/* Stats row */}
-          <div className="flex items-center gap-4 text-sm">
+          {/* Stats row - arcade style */}
+          <div className="flex items-center gap-3 text-sm">
             {/* Streak */}
-            <div className="flex items-center gap-1">
-              <Flame className={`w-4 h-4 ${habit.current_streak > 0 ? 'text-orange-400' : 'text-slate-500'}`} />
-              <span className={habit.current_streak > 0 ? 'text-orange-400 font-bold' : 'text-slate-500'}>
-                {habit.current_streak} day{habit.current_streak !== 1 ? 's' : ''}
+            <div 
+              className={`px-2 py-1 border-2 ${habit.current_streak > 0 ? 'border-orange-500 bg-orange-500/20' : 'border-gray-600 bg-gray-600/20'}`}
+              style={{ imageRendering: 'pixelated' }}
+            >
+              <span 
+                className={`font-black ${habit.current_streak > 0 ? 'text-orange-400' : 'text-gray-500'}`}
+                style={{ 
+                  fontFamily: 'monospace',
+                  textShadow: habit.current_streak > 0 ? '1px 1px 0 #000' : 'none'
+                }}
+              >
+                🔥{habit.current_streak}
               </span>
             </div>
             
             {/* XP reward */}
-            <div className="flex items-center gap-1">
-              <Zap className="w-4 h-4 text-yellow-400" />
-              <span className="text-yellow-400">
-                {totalXP} XP
+            <div 
+              className="px-2 py-1 border-2 border-yellow-400 bg-yellow-400/20"
+              style={{ imageRendering: 'pixelated' }}
+            >
+              <span 
+                className="font-black text-yellow-400"
+                style={{ 
+                  fontFamily: 'monospace',
+                  textShadow: '1px 1px 0 #000'
+                }}
+              >
+                ⚡{totalXP}
                 {streakBonus > 1 && (
-                  <span className="text-xs ml-1 text-green-400">(x{streakBonus})</span>
+                  <span className="text-xs ml-1 text-green-400">x{streakBonus}</span>
                 )}
               </span>
             </div>
           </div>
         </div>
         
-        {/* Actions */}
+        {/* Actions - arcade buttons */}
         <div className="flex flex-col gap-2">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={handleComplete}
             disabled={isCompletedToday}
-            className={`w-12 h-12 rounded-lg flex items-center justify-center transition-all ${
+            className={`w-14 h-14 border-4 flex items-center justify-center font-black text-2xl ${
               isCompletedToday 
-                ? 'bg-green-500/30 border-2 border-green-500 text-green-400' 
-                : 'bg-slate-800 border-2 border-slate-600 text-slate-400 hover:border-green-500 hover:text-green-400'
+                ? 'bg-green-500 border-green-300 text-white' 
+                : 'bg-gray-700 border-gray-500 text-gray-300 hover:bg-green-600 hover:border-green-400'
             }`}
+            style={{ 
+              imageRendering: 'pixelated',
+              boxShadow: isCompletedToday ? '0 0 20px #00FF00' : '0 4px 0 #000'
+            }}
           >
-            <Check className="w-6 h-6" />
+            ✓
           </motion.button>
           
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => onDelete(habit.id)}
-            className="w-12 h-12 rounded-lg flex items-center justify-center bg-slate-800/50 border-2 border-slate-700 text-slate-500 hover:border-red-500 hover:text-red-400 transition-all"
+            className="w-14 h-14 border-4 bg-gray-700 border-gray-500 text-red-500 hover:bg-red-600 hover:border-red-400 flex items-center justify-center font-black text-2xl"
+            style={{ 
+              imageRendering: 'pixelated',
+              boxShadow: '0 4px 0 #000'
+            }}
           >
-            <Trash2 className="w-5 h-5" />
+            ✕
           </motion.button>
         </div>
       </div>
+      </div>
       
-      {/* Best streak badge */}
+      {/* Best streak badge - pixel style */}
       {habit.longest_streak > 0 && (
-        <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-slate-900/80 border border-slate-700 text-xs text-slate-400">
-          Best: {habit.longest_streak}🔥
+        <div 
+          className="absolute -top-2 -right-2 px-2 py-1 bg-black border-2 border-orange-500 text-xs font-black text-orange-400"
+          style={{ 
+            fontFamily: 'monospace',
+            imageRendering: 'pixelated',
+            boxShadow: '0 0 10px #FF6600'
+          }}
+        >
+          MAX:{habit.longest_streak}
         </div>
       )}
     </motion.div>

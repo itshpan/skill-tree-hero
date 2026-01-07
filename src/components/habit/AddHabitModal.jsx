@@ -50,36 +50,39 @@ export default function AddHabitModal({ isOpen, onClose, onAdd }) {
           onClick={onClose}
         >
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-md rounded-xl border-2 border-cyan-500/50 bg-slate-900 p-6 shadow-2xl"
-            style={{ 
-              boxShadow: '0 0 40px rgba(0,255,255,0.2), inset 0 0 60px rgba(0,0,0,0.5)',
-              backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,255,0.02) 2px, rgba(0,255,255,0.02) 4px)'
-            }}
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.5, opacity: 0 }}
+          onClick={(e) => e.stopPropagation()}
+          className="relative w-full max-w-md bg-black border-8 border-white p-2"
+          style={{ imageRendering: 'pixelated' }}
           >
-            {/* Close button */}
+          <div className="border-8 border-cyan-400 bg-black p-6" style={{ boxShadow: '0 0 40px #00FFFF' }}>
+            {/* Close button - arcade style */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
+              className="absolute -top-4 -right-4 w-12 h-12 bg-red-600 border-4 border-white text-white font-black text-2xl flex items-center justify-center"
+              style={{ imageRendering: 'pixelated', boxShadow: '0 0 20px #FF0000' }}
             >
-              <X className="w-6 h-6" />
+              ✕
             </button>
             
             {/* Header */}
-            <div className="mb-6">
+            <div className="mb-6 text-center">
               <h2 
-                className="text-2xl font-bold text-cyan-400"
+                className="text-3xl font-black"
                 style={{ 
-                  fontFamily: "'Orbitron', sans-serif",
-                  textShadow: '0 0 20px rgba(0,255,255,0.5)'
+                  fontFamily: 'monospace',
+                  color: '#00FFFF',
+                  textShadow: '4px 4px 0 #FF00FF',
+                  imageRendering: 'pixelated'
                 }}
               >
-                NEW HABIT
+                NEW QUEST
               </h2>
-              <p className="text-slate-400 text-sm mt-1">Begin your training, hero.</p>
+              <p className="text-yellow-400 text-sm mt-2 font-bold" style={{ fontFamily: 'monospace' }}>
+                &gt; PRESS START &lt;
+              </p>
             </div>
             
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -155,16 +158,20 @@ export default function AddHabitModal({ isOpen, onClose, onAdd }) {
                 </Select>
               </div>
               
-              {/* Submit */}
-              <Button
+              {/* Submit - arcade button */}
+              <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold py-3"
-                style={{ fontFamily: "'Orbitron', sans-serif" }}
+                className="w-full bg-green-500 border-4 border-white hover:bg-green-400 text-black font-black py-4 text-xl mt-4"
+                style={{ 
+                  fontFamily: 'monospace',
+                  imageRendering: 'pixelated',
+                  boxShadow: '0 6px 0 #006600, 0 0 30px #00FF00'
+                }}
               >
-                <Plus className="w-5 h-5 mr-2" />
-                CREATE HABIT
-              </Button>
+                ▶ START QUEST
+              </button>
             </form>
+            </div>
           </motion.div>
         </motion.div>
       )}

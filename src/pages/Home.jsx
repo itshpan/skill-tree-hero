@@ -132,20 +132,22 @@ export default function Home() {
   
   return (
     <div 
-      className="min-h-screen bg-slate-950 text-white"
+      className="min-h-screen bg-black text-white"
       style={{
         backgroundImage: `
-          radial-gradient(circle at 20% 80%, rgba(255,107,157,0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 20%, rgba(0,255,255,0.1) 0%, transparent 50%),
-          radial-gradient(circle at 50% 50%, rgba(168,85,247,0.05) 0%, transparent 70%)
-        `
+          repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(255,0,255,0.05) 4px, rgba(255,0,255,0.05) 8px),
+          repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(0,255,255,0.05) 4px, rgba(0,255,255,0.05) 8px)
+        `,
+        backgroundSize: '80px 80px',
+        imageRendering: 'pixelated'
       }}
     >
-      {/* Scan lines overlay */}
+      {/* CRT overlay effect */}
       <div 
-        className="fixed inset-0 pointer-events-none opacity-30 z-0"
+        className="fixed inset-0 pointer-events-none opacity-10 z-0"
         style={{
-          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px)'
+          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)',
+          imageRendering: 'pixelated'
         }}
       />
       
@@ -161,34 +163,53 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="relative p-6 rounded-xl border-2 border-pink-500/30 bg-gradient-to-br from-slate-900 via-pink-950/20 to-slate-900 text-center"
+              className="relative bg-black border-4 border-white p-1 text-center"
+              style={{ imageRendering: 'pixelated' }}
             >
-              <div className="text-xs text-slate-500 uppercase tracking-wider mb-2">Your Hero</div>
+              <div className="border-4 border-pink-500 bg-black p-6">
+              <div 
+                className="text-xs font-black uppercase tracking-wider mb-2"
+                style={{ fontFamily: 'monospace', color: '#FF00FF', textShadow: '2px 2px 0 #000' }}
+              >
+                PLAYER 1
+              </div>
               <HeroAvatar 
                 style={heroStats?.avatar_style || 'warrior'} 
                 level={heroStats?.level || 1}
                 size={160}
               />
               <h3 
-                className="text-xl font-bold mt-4 text-pink-400"
-                style={{ fontFamily: "'Orbitron', sans-serif" }}
+                className="text-xl font-black mt-4"
+                style={{ 
+                  fontFamily: 'monospace',
+                  color: '#FFFF00',
+                  textShadow: '3px 3px 0 #FF0000',
+                  imageRendering: 'pixelated'
+                }}
               >
-                {heroStats?.hero_name || 'Hero'}
+                {(heroStats?.hero_name || 'Hero').toUpperCase()}
               </h3>
               
-              {/* Daily progress */}
-              <div className="mt-4 p-3 rounded-lg bg-slate-800/50 border border-slate-700">
+              {/* Daily progress - arcade style */}
+              <div className="mt-4 p-3 bg-black border-4 border-cyan-400">
                 <div className="flex items-center justify-between text-sm mb-2">
-                  <span className="text-slate-400">Daily Progress</span>
-                  <span className="text-cyan-400 font-bold">{completedToday}/{totalHabits}</span>
+                  <span className="font-black" style={{ fontFamily: 'monospace', color: '#00FFFF' }}>DAILY</span>
+                  <span className="font-black" style={{ fontFamily: 'monospace', color: '#FFFFFF' }}>
+                    {completedToday}/{totalHabits}
+                  </span>
                 </div>
-                <div className="h-2 rounded-full bg-slate-700 overflow-hidden">
+                <div className="h-4 bg-gray-800 border-2 border-white overflow-hidden">
                   <motion.div
-                    className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-pink-400"
+                    className="h-full"
+                    style={{
+                      background: 'repeating-linear-gradient(90deg, #00FFFF 0px, #00FFFF 4px, #FF00FF 4px, #FF00FF 8px)',
+                      imageRendering: 'pixelated'
+                    }}
                     initial={{ width: 0 }}
                     animate={{ width: totalHabits > 0 ? `${(completedToday / totalHabits) * 100}%` : '0%' }}
                   />
                 </div>
+              </div>
               </div>
             </motion.div>
             
@@ -267,32 +288,56 @@ export default function Home() {
               </div>
             )}
             
-            {/* Stats footer */}
+            {/* Stats footer - arcade scoreboard */}
             {activeHabits.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex items-center justify-center gap-8 py-4 px-6 rounded-xl bg-slate-900/50 border border-slate-800"
+                className="bg-black border-4 border-white p-1"
+                style={{ imageRendering: 'pixelated' }}
               >
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-orange-400">
-                    {habits.reduce((max, h) => Math.max(max, h.current_streak || 0), 0)}
+                <div className="border-4 border-yellow-400 bg-black p-4 flex items-center justify-center gap-6">
+                  <div className="text-center">
+                    <div 
+                      className="text-3xl font-black"
+                      style={{ 
+                        fontFamily: 'monospace',
+                        color: '#FF6600',
+                        textShadow: '2px 2px 0 #000'
+                      }}
+                    >
+                      {String(habits.reduce((max, h) => Math.max(max, h.current_streak || 0), 0)).padStart(2, '0')}
+                    </div>
+                    <div className="text-xs font-bold mt-1" style={{ fontFamily: 'monospace', color: '#CCCCCC' }}>STREAK</div>
                   </div>
-                  <div className="text-xs text-slate-500 uppercase tracking-wider">Best Streak</div>
-                </div>
-                <div className="w-px h-8 bg-slate-700" />
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-400">
-                    {habits.reduce((sum, h) => sum + (h.total_completions || 0), 0)}
+                  <div className="w-1 h-12 bg-white" />
+                  <div className="text-center">
+                    <div 
+                      className="text-3xl font-black"
+                      style={{ 
+                        fontFamily: 'monospace',
+                        color: '#00FF00',
+                        textShadow: '2px 2px 0 #000'
+                      }}
+                    >
+                      {String(habits.reduce((sum, h) => sum + (h.total_completions || 0), 0)).padStart(3, '0')}
+                    </div>
+                    <div className="text-xs font-bold mt-1" style={{ fontFamily: 'monospace', color: '#CCCCCC' }}>TOTAL</div>
                   </div>
-                  <div className="text-xs text-slate-500 uppercase tracking-wider">Total Done</div>
-                </div>
-                <div className="w-px h-8 bg-slate-700" />
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-cyan-400">
-                    {activeHabits.length}
+                  <div className="w-1 h-12 bg-white" />
+                  <div className="text-center">
+                    <div 
+                      className="text-3xl font-black"
+                      style={{ 
+                        fontFamily: 'monospace',
+                        color: '#00FFFF',
+                        textShadow: '2px 2px 0 #000'
+                      }}
+                    >
+                      {String(activeHabits.length).padStart(2, '0')}
+                    </div>
+                    <div className="text-xs font-bold mt-1" style={{ fontFamily: 'monospace', color: '#CCCCCC' }}>QUESTS</div>
                   </div>
-                  <div className="text-xs text-slate-500 uppercase tracking-wider">Active</div>
                 </div>
               </motion.div>
             )}
