@@ -6,10 +6,10 @@ import { Button } from '@/components/ui/button';
 const categoryColors = {
   strength: { bg: 'bg-red-600', border: 'border-red-500', text: 'text-white', glow: '#FF0000' },
   intelligence: { bg: 'bg-blue-600', border: 'border-blue-500', text: 'text-white', glow: '#0000FF' },
-  discipline: { bg: 'bg-yellow-700', border: 'border-yellow-400', text: 'text-white', glow: '#FFFF00' },
+  discipline: { bg: 'bg-yellow-500', border: 'border-yellow-400', text: 'text-black', glow: '#FFFF00' },
   creativity: { bg: 'bg-purple-600', border: 'border-purple-500', text: 'text-white', glow: '#FF00FF' },
   vitality: { bg: 'bg-green-600', border: 'border-green-500', text: 'text-white', glow: '#00FF00' },
-  charisma: { bg: 'bg-cyan-700', border: 'border-cyan-400', text: 'text-white', glow: '#00FFFF' }
+  charisma: { bg: 'bg-cyan-500', border: 'border-cyan-400', text: 'text-black', glow: '#00FFFF' }
 };
 
 const categoryIcons = {

@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Swords, Trophy, Calendar, Edit2 } from 'lucide-react';
+import { Plus, Swords, Trophy, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { format } from 'date-fns';
 
 import RetroHeader from '@/components/ui/RetroHeader';
@@ -18,8 +17,6 @@ export default function Home() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [newLevel, setNewLevel] = useState(1);
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [heroName, setHeroName] = useState('');
   const queryClient = useQueryClient();
   const today = format(new Date(), 'yyyy-MM-dd');
   
@@ -77,23 +74,6 @@ export default function Home() {
     mutationFn: (id) => base44.entities.Habit.delete(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['habits'] })
   });
-  
-  // Update hero name mutation
-  const updateHeroName = useMutation({
-    mutationFn: (name) => base44.entities.HeroStats.update(heroStats.id, { hero_name: name }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['heroStats'] });
-      setIsEditingName(false);
-    }
-  });
-  
-  const handleNameSave = () => {
-    if (heroName.trim() && heroName !== heroStats?.hero_name) {
-      updateHeroName.mutate(heroName.trim());
-    } else {
-      setIsEditingName(false);
-    }
-  };
   
   // Complete habit handler
   const handleComplete = async (habit) => {
@@ -198,56 +178,17 @@ export default function Home() {
                 level={heroStats?.level || 1}
                 size={160}
               />
-              
-              {/* Hero name - editable */}
-              <div className="mt-4 flex items-center justify-center gap-2">
-                {isEditingName ? (
-                  <Input
-                    value={heroName}
-                    onChange={(e) => setHeroName(e.target.value)}
-                    onBlur={handleNameSave}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') handleNameSave();
-                      if (e.key === 'Escape') setIsEditingName(false);
-                    }}
-                    autoFocus
-                    maxLength={20}
-                    className="w-32 h-8 text-center bg-black border-2 border-yellow-400 text-yellow-400 font-black uppercase"
-                    style={{ 
-                      fontFamily: 'monospace',
-                      imageRendering: 'pixelated'
-                    }}
-                  />
-                ) : (
-                  <>
-                    <h3 
-                      className="text-xl font-black cursor-pointer hover:opacity-80"
-                      style={{ 
-                        fontFamily: 'monospace',
-                        color: '#FFFF00',
-                        textShadow: '3px 3px 0 #FF0000',
-                        imageRendering: 'pixelated'
-                      }}
-                      onClick={() => {
-                        setHeroName(heroStats?.hero_name || 'Hero');
-                        setIsEditingName(true);
-                      }}
-                    >
-                      {(heroStats?.hero_name || 'Hero').toUpperCase()}
-                    </h3>
-                    <button
-                      onClick={() => {
-                        setHeroName(heroStats?.hero_name || 'Hero');
-                        setIsEditingName(true);
-                      }}
-                      className="w-6 h-6 bg-yellow-400 border-2 border-white flex items-center justify-center hover:bg-yellow-300"
-                      style={{ imageRendering: 'pixelated' }}
-                    >
-                      <Edit2 className="w-3 h-3 text-black" />
-                    </button>
-                  </>
-                )}
-              </div>
+              <h3 
+                className="text-xl font-black mt-4"
+                style={{ 
+                  fontFamily: 'monospace',
+                  color: '#FFFF00',
+                  textShadow: '3px 3px 0 #FF0000',
+                  imageRendering: 'pixelated'
+                }}
+              >
+                {(heroStats?.hero_name || 'Hero').toUpperCase()}
+              </h3>
               
               {/* Daily progress - arcade style */}
               <div className="mt-4 p-3 bg-black border-4 border-cyan-400">
