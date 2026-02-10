@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Swords, Trophy, Calendar } from 'lucide-react';
+import { Plus, Swords, Trophy, Calendar, Edit2, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { format } from 'date-fns';
 
 import RetroHeader from '@/components/ui/RetroHeader';
@@ -17,6 +18,8 @@ export default function Home() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [newLevel, setNewLevel] = useState(1);
+  const [editingName, setEditingName] = useState(false);
+  const [heroName, setHeroName] = useState('');
   const queryClient = useQueryClient();
   const today = format(new Date(), 'yyyy-MM-dd');
   
@@ -62,6 +65,25 @@ export default function Home() {
     };
     initHero();
   }, [heroStatsArr.length, queryClient]);
+  
+  // Update hero name mutation
+  const updateHeroName = useMutation({
+    mutationFn: async (newName) => {
+      if (heroStats && newName.trim()) {
+        await base44.entities.HeroStats.update(heroStats.id, { hero_name: newName.trim() });
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['heroStats'] });
+      setEditingName(false);
+    }
+  });
+  
+  const handleSaveName = () => {
+    if (heroName.trim()) {
+      updateHeroName.mutate(heroName);
+    }
+  };
   
   // Create habit mutation
   const createHabit = useMutation({
@@ -178,17 +200,66 @@ export default function Home() {
                 level={heroStats?.level || 1}
                 size={160}
               />
-              <h3 
-                className="text-xl font-black mt-4"
-                style={{ 
-                  fontFamily: 'monospace',
-                  color: '#FFFF00',
-                  textShadow: '3px 3px 0 #FF0000',
-                  imageRendering: 'pixelated'
-                }}
-              >
-                {(heroStats?.hero_name || 'Hero').toUpperCase()}
-              </h3>
+              
+              {/* Hero name with edit */}
+              <div className="mt-4">
+                {editingName ? (
+                  <div className="flex items-center gap-2 justify-center">
+                    <Input
+                      value={heroName}
+                      onChange={(e) => setHeroName(e.target.value)}
+                      placeholder="Enter name"
+                      className="w-32 h-8 text-center bg-black border-2 border-yellow-400 text-yellow-400 font-black uppercase"
+                      style={{ fontFamily: 'monospace', imageRendering: 'pixelated' }}
+                      maxLength={12}
+                      autoFocus
+                      onKeyPress={(e) => e.key === 'Enter' && handleSaveName()}
+                    />
+                    <button
+                      onClick={handleSaveName}
+                      className="w-8 h-8 bg-green-500 border-2 border-white text-black font-black"
+                      style={{ imageRendering: 'pixelated' }}
+                    >
+                      ✓
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 justify-center group">
+                    <h3 
+                      className="text-lg font-black"
+                      style={{ 
+                        fontFamily: 'monospace',
+                        color: '#FFFFFF',
+                        textShadow: '2px 2px 0 #000',
+                        imageRendering: 'pixelated'
+                      }}
+                    >
+                      HERO:
+                    </h3>
+                    <h3 
+                      className="text-lg font-black"
+                      style={{ 
+                        fontFamily: 'monospace',
+                        color: '#FFFF00',
+                        textShadow: '2px 2px 0 #FF0000',
+                        imageRendering: 'pixelated'
+                      }}
+                    >
+                      {(heroStats?.hero_name || 'HERO').toUpperCase()}
+                    </h3>
+                    <button
+                      onClick={() => {
+                        setHeroName(heroStats?.hero_name || '');
+                        setEditingName(true);
+                      }}
+                      className="w-6 h-6 bg-cyan-500 border-2 border-white text-black opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                      style={{ imageRendering: 'pixelated' }}
+                    >
+                      <Edit2 className="w-3 h-3" />
+                    </button>
+                  </div>
+                )}
+              </div>
               
               {/* Daily progress - arcade style */}
               <div className="mt-4 p-3 bg-black border-4 border-cyan-400">
