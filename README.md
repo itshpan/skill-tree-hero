@@ -1,39 +1,129 @@
-**Welcome to your Base44 project** 
+# Skill Tree Hero
 
-**About**
+A gamified habit tracker that turns your daily habits into RPG quests. Complete habits, earn XP, level up your hero, and grow your skill tree — all wrapped in a retro arcade aesthetic.
 
-View and Edit  your app on [Base44.com](http://Base44.com) 
+## Features
 
-This project contains everything you need to run your app locally.
+### Hero System
+- Create and customize your hero with 4 avatar styles (Warrior, Mage, Rogue, Sage)
+- Gain experience points (XP) and level up (100 XP per level)
+- Track your total score and progression over time
 
-**Edit the code in your local development environment**
+### Daily Quests (Habits)
+- Create habits as daily quests, each assigned to a skill category
+- Set difficulty-based XP rewards (5, 10, 20, or 30 XP)
+- Mark quests complete each day to earn XP
+- Habits reset daily so you can build consistent routines
 
-Any change pushed to the repo will also be reflected in the Base44 Builder.
+### Skill Tree
+Six RPG-style attributes that grow as you complete related habits:
 
-**Prerequisites:** 
+| Skill | Description |
+|-------|-------------|
+| Strength | Physical fitness & power |
+| Intelligence | Learning & mental growth |
+| Discipline | Consistency & willpower |
+| Creativity | Art & innovation |
+| Vitality | Health & wellness |
+| Charisma | Social & communication |
 
-1. Clone the repository using the project's Git URL 
-2. Navigate to the project directory
-3. Install dependencies: `npm install`
-4. Create an `.env.local` file and set the right environment variables
+Each skill levels up independently (every 10 XP), giving you a visual breakdown of where you're investing effort.
+
+### Streak System
+Maintain daily streaks on each habit to earn XP multipliers:
+
+| Streak Days | Multiplier |
+|-------------|------------|
+| 0–6 | 1x |
+| 7+ | 2x |
+| 14+ | 3x |
+| 21+ | 4x |
+| 28+ | 5x |
+
+### Progression & Rewards
+- XP popups and animations on quest completion
+- Level-up celebration modal
+- Arcade-style scoreboards showing streaks, total completions, and quest count
+- Daily progress bar tracking completed vs. total quests
+
+## Tech Stack
+
+- **React** 18 with Vite
+- **Tailwind CSS** with retro arcade styling (neon colors, CRT scanlines, pixel fonts)
+- **Radix UI** for accessible component primitives
+- **Framer Motion** for animations
+- **React Query** for data fetching and caching
+- **React Hook Form** + **Zod** for form handling and validation
+- **Base44** platform for backend (auth, database, hosting)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js and npm
+
+### Installation
+
+```bash
+# Clone the repository
+git clone <repo-url>
+cd skill-tree-hero
+
+# Install dependencies
+npm install
+```
+
+### Environment Setup
+
+Create an `.env.local` file in the project root:
 
 ```
 VITE_BASE44_APP_ID=your_app_id
 VITE_BASE44_APP_BASE_URL=your_backend_url
-
-e.g.
-VITE_BASE44_APP_ID=cbef744a8545c389ef439ea6
-VITE_BASE44_APP_BASE_URL=https://my-to-do-list-81bfaad7.base44.app
 ```
 
-Run the app: `npm run dev`
+### Running Locally
 
-**Publish your changes**
+```bash
+# Start development server
+npm run dev
 
-Open [Base44.com](http://Base44.com) and click on Publish.
+# Build for production
+npm build
 
-**Docs & Support**
+# Preview production build
+npm run preview
 
-Documentation: [https://docs.base44.com/Integrations/Using-GitHub](https://docs.base44.com/Integrations/Using-GitHub)
+# Lint
+npm run lint
+npm run lint:fix
 
-Support: [https://app.base44.com/support](https://app.base44.com/support)
+# Type check
+npm run typecheck
+```
+
+The app will be available at `http://localhost:5173`.
+
+### Publishing
+
+Changes pushed to the repo are reflected in the Base44 Builder. To publish, open [Base44.com](http://Base44.com) and click Publish.
+
+## Project Structure
+
+```
+src/
+  api/              # Base44 SDK client
+  components/
+    hero/           # HeroAvatar, LevelUpModal, SkillBar, SkillTree
+    habit/          # HabitCard, AddHabitModal
+    ui/             # Radix UI primitives, RetroHeader
+  hooks/            # Custom hooks (mobile detection)
+  lib/              # Auth, routing, utilities
+  pages/            # Home (main app page)
+  utils/            # Shared utilities
+```
+
+## Documentation & Support
+
+- Base44 Docs: [docs.base44.com](https://docs.base44.com/Integrations/Using-GitHub)
+- Support: [app.base44.com/support](https://app.base44.com/support)
