@@ -1,0 +1,59 @@
+{
+  "name": "Habit",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the habit"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the habit"
+    },
+    "skill_category": {
+      "type": "string",
+      "enum": [
+        "strength",
+        "intelligence",
+        "discipline",
+        "creativity",
+        "vitality",
+        "charisma"
+      ],
+      "description": "Which skill tree this habit contributes to"
+    },
+    "xp_reward": {
+      "type": "number",
+      "default": 10,
+      "description": "Base XP earned per completion"
+    },
+    "current_streak": {
+      "type": "number",
+      "default": 0,
+      "description": "Current consecutive days streak"
+    },
+    "longest_streak": {
+      "type": "number",
+      "default": 0,
+      "description": "Longest streak ever achieved"
+    },
+    "total_completions": {
+      "type": "number",
+      "default": 0,
+      "description": "Total times completed"
+    },
+    "last_completed": {
+      "type": "string",
+      "format": "date",
+      "description": "Last completion date"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "name",
+    "skill_category"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "CompletionLog",
+  "type": "object",
+  "properties": {
+    "habit_id": {
+      "type": "string",
+      "description": "Reference to the habit"
+    },
+    "completion_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "xp_earned": {
+      "type": "number"
+    },
+    "streak_bonus": {
+      "type": "number",
+      "default": 1
+    }
+  },
+  "required": [
+    "habit_id",
+    "completion_date",
+    "xp_earned"
+  ]
+}

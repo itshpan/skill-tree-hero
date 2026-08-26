@@ -1,0 +1,55 @@
+{
+  "name": "HeroStats",
+  "type": "object",
+  "properties": {
+    "hero_name": {
+      "type": "string",
+      "default": "Hero"
+    },
+    "total_xp": {
+      "type": "number",
+      "default": 0
+    },
+    "level": {
+      "type": "number",
+      "default": 1
+    },
+    "strength": {
+      "type": "number",
+      "default": 1
+    },
+    "intelligence": {
+      "type": "number",
+      "default": 1
+    },
+    "discipline": {
+      "type": "number",
+      "default": 1
+    },
+    "creativity": {
+      "type": "number",
+      "default": 1
+    },
+    "vitality": {
+      "type": "number",
+      "default": 1
+    },
+    "charisma": {
+      "type": "number",
+      "default": 1
+    },
+    "avatar_style": {
+      "type": "string",
+      "enum": [
+        "warrior",
+        "mage",
+        "rogue",
+        "sage"
+      ],
+      "default": "warrior"
+    }
+  },
+  "required": [
+    "hero_name"
+  ]
+}
